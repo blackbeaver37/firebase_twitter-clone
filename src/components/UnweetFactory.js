@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { dbService, storageService } from "myFirebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const UnweetFactory = ({ userObj }) => {
     const [unweet, setUnweet] = useState("");
     const [attachment, setAttachment] = useState("");
     const onSubmit = async (event) => {
+        if (unweet === "") {
+            return;
+        }
         event.preventDefault();
         let attachmentUrl = "";
         if (attachment !== "") {
@@ -50,25 +55,50 @@ const UnweetFactory = ({ userObj }) => {
     };
     const onClearAttachment = () => setAttachment("");
     return (
-        <form onSubmit={onSubmit}>
+        <form className="factoryForm" onSubmit={onSubmit}>
+            <div className="factoryInput__container">
+                <input
+                    className="factoryInput__input"
+                    value={unweet}
+                    onChange={onChange}
+                    type="text"
+                    placeholder="Tell me what you think!"
+                    maxLength={120}
+                />
+                <input
+                    className="factoryInput__arrow"
+                    type="submit"
+                    value="&rarr;"
+                />
+            </div>
+            <label className="factoryInput__label" for="attach-file">
+                <span>Add photos</span>
+                <FontAwesomeIcon icon={faPlus} />
+            </label>
             <input
-                value={unweet}
-                onChange={onChange}
-                type="text"
-                placeholder="Write Your Unweet!"
-                maxLength={120}
+                id="attach-file"
+                type="file"
+                accept="image/*"
+                onChange={onFileChange}
+                style={{
+                    opacity: 0,
+                }}
             />
-            <input type="file" accept="image/*" onChange={onFileChange} />
-            <input type="submit" value="Unweet" />
             {attachment && (
-                <div>
+                <div className="factoryForm__attachment">
                     <img
                         src={attachment}
-                        alt="alt"
-                        width="50px"
-                        height="50px"
+                        style={{
+                            backgroundImage: attachment,
+                        }}
                     />
-                    <button onClick={onClearAttachment}>Clear</button>
+                    <div
+                        className="factoryForm__clear"
+                        onClick={onClearAttachment}
+                    >
+                        <span>Remove</span>
+                        <FontAwesomeIcon icon={faTimes} />
+                    </div>
                 </div>
             )}
         </form>

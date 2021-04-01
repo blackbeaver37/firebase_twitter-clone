@@ -15,9 +15,9 @@ const Home = ({ userObj }) => {
         });
     }, []);
     return (
-        <div>
+        <div className="container">
             <UnweetFactory userObj={userObj} />
-            <div>
+            <div style={{ marginTop: 30 }}>
                 {unweets.map((unweet) => (
                     <Unweet
                         key={unweet.id}

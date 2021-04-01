@@ -1,5 +1,7 @@
 import { dbService, storageService } from "myFirebase";
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Unweet = ({ unweetObj, isOwner }) => {
     const [editing, setEditing] = useState(false);
@@ -32,37 +34,44 @@ const Unweet = ({ unweetObj, isOwner }) => {
         setNewUnweet(value);
     };
     return (
-        <div>
+        <div className="unweet">
             {editing ? (
                 <>
-                    <form onSubmit={onSubmit}>
+                    <form className="container unweetEdit" onSubmit={onSubmit}>
                         <input
+                            className="formInput"
                             type="text"
                             placeholder="Edit your unweet"
                             value={newUnweet}
                             required
+                            autoFocus
                             onChange={onChange}
                         />
-                        <input type="submit" value="Update Unweet" />
+                        <input
+                            className="formBtn"
+                            type="submit"
+                            value="Update Unweet"
+                        />
                     </form>
-                    <button onClick={toggleEditing}>Cancel</button>
+                    <span className="formBtn cancelBtn" onClick={toggleEditing}>
+                        Cancel
+                    </span>
                 </>
             ) : (
                 <>
                     <h4>{unweetObj.text}</h4>
                     {unweetObj.attachmentUrl && (
-                        <img
-                            src={unweetObj.attachmentUrl}
-                            alt="alt"
-                            width="50px"
-                            height="50px"
-                        />
+                        <img src={unweetObj.attachmentUrl} />
                     )}
                     {isOwner && (
-                        <>
-                            <button onClick={onDeleteClick}>Delete</button>
-                            <button onClick={toggleEditing}>Edit</button>
-                        </>
+                        <div class="unweet__actions">
+                            <span onClick={onDeleteClick}>
+                                <FontAwesomeIcon icon={faTrash} />
+                            </span>
+                            <span onClick={toggleEditing}>
+                                <FontAwesomeIcon icon={faPencilAlt} />
+                            </span>
+                        </div>
                     )}
                 </>
             )}

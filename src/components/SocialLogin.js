@@ -1,5 +1,7 @@
 import { authService, fbInstance } from "myFirebase";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const SocialLogin = () => {
     const onSocialClick = async (event) => {
@@ -15,12 +17,12 @@ const SocialLogin = () => {
         await authService.signInWithPopup(provider);
     };
     return (
-        <div>
-            <button name="google" onClick={onSocialClick}>
-                Continue with Google
+        <div className="authBtns">
+            <button onClick={onSocialClick} name="google" className="authBtn">
+                Continue with Google <FontAwesomeIcon icon={faGoogle} />
             </button>
-            <button name="github" onClick={onSocialClick}>
-                Continue with Github
+            <button onClick={onSocialClick} name="github" className="authBtn">
+                Continue with Github <FontAwesomeIcon icon={faGithub} />
             </button>
         </div>
     );
